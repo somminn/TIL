@@ -1,4 +1,4 @@
-<GitHub으로 TIL하는 방법>
+# GitHub으로 TIL하는 방법
 ## 1. GitHub 저장소 만들기
 1. GitHub에 로그인하고 새 저장소 생성 페이지로 이동
 2. Repository name: TIL 입력
