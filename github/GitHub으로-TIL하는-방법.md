@@ -82,7 +82,7 @@ git commit -m "메시지"   # 변경 사항을 로컬 저장소에 저장
 ```
 ```
 git push origin main   # GitHub에 업로드
-```
+``` 
 
 ### 폴더 이름 바꾸기
 ## 1. 폴더 이름 바꾸기
