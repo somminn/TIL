@@ -1,10 +1,12 @@
 ## GitHub으로 TIL하는 방법
+___
 
 ### 1. GitHub 저장소 만들기
 1. GitHub에 로그인하고 새 저장소 생성 페이지로 이동
 2. Repository name: TIL 입력
 3. Add a README file 체크 후, Create repository 클릭
 
+<br>
 
 ### 2. 로컬에 TIL 저장소 클론하기
 원하는 디렉토리에서 clone
@@ -12,6 +14,8 @@
 git clone https://github.com/GitHub아이디/TIL.git
 cd TIL
 ```
+
+<br>
 
 ### 3. 폴더 및 파일 구조 만들기
 #### 1. 디렉토리 생성
@@ -24,10 +28,12 @@ echo "Java" > Java/README.md
 ```
 Git은 빈 폴더는 관리하지 않기때문에 폴더를 만들고 .md 같은 파일을 하나 추가하고 커밋해야함 -> 커밋 방법은 후술
 
+<br>
 
 ### 4. 학습한 내용 기록하기
 예시: 2025-02-28-git-기본명령어.md
 
+<br>
 
 ### 5. 파일 추가 및 커밋
 #### 1. 파일 스테이징
@@ -49,11 +55,14 @@ git commit -m "메시지"
 * 커밋(commit): 변경 사항을 로컬(local) 저장소에 저장하는 것
 * 푸시(push): 로컬 저장소의 커밋을 GitHub(원격 저장소)에 업로드하는 것
 
+<br>
 
 ### 6. GitHub에 올리기 (Push)
 ```
 git push origin main
 ```
+
+<br>
 
 #### *GitHub 푸시할 때 비밀번호 입력이 안 되는 문제 해결 방법*
 *에러 로그 : Authentication failed*  
