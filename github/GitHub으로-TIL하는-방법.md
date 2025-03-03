@@ -83,3 +83,29 @@ git commit -m "메시지"   # 변경 사항을 로컬 저장소에 저장
 ```
 git push origin main   # GitHub에 업로드
 ```
+
+### 폴더 이름 바꾸기
+## 1. 폴더 이름 바꾸기
+```
+mv old-folder-name new-folder-name
+```
+
+## 2. Git이 변경 사항을 인식하도록 하기
+```
+git add -A
+```
+-A 옵션을 사용하면 파일명 변경을 포합한 모든 변경 사항이 추가됨
+
+## 3. 커밋하기
+```
+git commit -m "rename"
+```
+
+## 4. GitHub으로 푸시하기
+```
+git push origin main
+```
+
+## 반영이 안된다면?
+특히, 폴더 이름의 대소문자만 변경했을 경우 Git이 이를 인식하지 못할 수 있음
+기존 폴더명 -> 임시 폴더명 -> 새 폴더명 으로 변경해보기
