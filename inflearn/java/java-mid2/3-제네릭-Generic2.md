@@ -235,4 +235,10 @@ Animal 타입을 포함한 Animal 타입의 상위 타입만 입력 받을 수 �
 
 
 ### 메모 
-삼항 연산자
+#### 삼항 연산자
+![삼항 연산자](https://github.com/somminn/TIL/blob/main/image/image.png?raw=true)
+```java
+public void showInfo() {
+    System.out.println("이름: " + unit.getName() + ", HP: " + unit.getHp());
+    }
+```
