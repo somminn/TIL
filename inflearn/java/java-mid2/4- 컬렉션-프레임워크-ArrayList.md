@@ -63,15 +63,45 @@ arr[2]: x100 + (4byte * 2): x108
 ### 4. 직접 구현하는 배열 List1 - 시작
 `리스트는 배열보다 유연한 자료 구조로, 크기가 정적으로 고정된 배열과 달리 배열의 크기가 동적으로 변할 수 있다.`
 
-#### 데이터 추가
-리스트의 사이즈(size)는 실제 데이터가 입력된 크기를 뜻한다. 배열의 크기와는 무관하다. 배열의 크기는 capacity 로 표현한다.
+#### capacity vs size
+- capacity : 배열의 크기
+- size : 실제 데이터가 입력된 크기 (리스트의 크기) 
 
+#### 데이터 추가
+![데이터 추가](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-18%20%EC%98%A4%ED%9B%84%206.01.21.png?raw=true)
 
 #### 데이터 변경
+인덱스를 사용해서 데이터를 변경한다. 해당 인덱스의 위치를 찾아서 변경한다.
+
+![데이터 변경](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-18%20%EC%98%A4%ED%9B%84%206.02.02.png?raw=true)
 
 #### 범위 초과
+size 가 배열의 크기인 capacity 에 도달하면 더는 데이터를 추가할 수 없어 예외가 발생한다.
+
+![범위 초과](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-18%20%EC%98%A4%ED%9B%84%206.02.48.png?raw=true)
 
 
+### 5. 직접 구현하는 배열 List2 - 동적 배열
+
+size 가 capacity 에 도달했다면 새로운 길이로 배열을 생성하고, 기존 배열의 값을 새로운 배열에 복사하면 된다.
+```java
+public void add(Object e) {
+        if (size == elementData.length) {
+            grow();
+        }
+        elementData[size] = e;
+        size++;
+    }
+    
+public void grow() {
+        int oldCapacity = elementData.length;
+        int newCapacity = oldCapacity * 2;
+        // 참조값 변경 x100 -> x200
+        elementData = Arrays.copyOf(elementData, newCapacity);
+    }
+```
+- `Arrays.copyOf (기존 배열, 새로운 길이)` : 새로운 길이로 배열을 생성하고, 기존 배열의 값을 새로운 배열에 복사
+- `elementData = Arrays.copyOf(elementData, newCapacity)` : elementData 에 새로운 배열의 참조값 부여
 
 
 
