@@ -64,7 +64,7 @@ arr[2]: x100 + (4byte * 2): x108
 `리스트는 배열보다 유연한 자료 구조로, 크기가 정적으로 고정된 배열과 달리 배열의 크기가 동적으로 변할 수 있다.`
 
 #### capacity vs size
-- capacity : 배열의 크기
+- capacity : 배열의 크기 (배열.length)
 - size : 실제 데이터가 입력된 크기 (리스트의 크기) 
 
 #### 데이터 추가
@@ -103,6 +103,55 @@ public void grow() {
 - `Arrays.copyOf (기존 배열, 새로운 길이)` : 새로운 길이로 배열을 생성하고, 기존 배열의 값을 새로운 배열에 복사
 - `elementData = Arrays.copyOf(elementData, newCapacity)` : elementData 에 새로운 배열의 참조값 부여
 
+![배열 크기 초과1](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-18%20%EC%98%A4%ED%9B%84%207.46.20.png?raw=true)
+![배열 크기 초과2](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-18%20%EC%98%A4%ED%9B%84%207.46.32.png?raw=true)
 
 
 
+### 6. 직접 구현하는 배열 List3 - 기능 추가
+
+#### 원하는 인덱스에 데이터 추가
+`add(Object e)` : 마지막 위치에 추가를 한다면 기존 데이터를 이동할 필요가 없다. -> O(1)  
+`add(int index, Object e)` : 추가할 위치를 확보하기 위해 입력한 위치를 기준으로 데이터를 오른쪽으로 한 칸씩 이동해야 한다. -> O(n)
+
+```java
+public void add(int index, Object e) {
+        if (size == elementData.length) {
+            grow();
+        }
+        // 데이터 이동
+        shiftRightFrom(index);
+        elementData[index] = e;
+        size++;
+    }
+
+// 요소의 마지막부터 index 까지 오른쪽으로 밀기
+private void shiftRightFrom(int index) {
+        for (int i = size; i > index ; i--) {
+            elementData[i] = elementData[i - 1];
+        }
+    }
+```
+
+
+#### 원하는 인덱스 데이터 삭제
+`remove(int 마지막 index)` : 마지막 위치라면 기존 데이터를 이동할 필요가 없다. -> O(1)  
+`remove(int 앞 index)` : 삭제할 데이터가 마지막 위치가 아니라면 삭제할 데이터의 위치를 기준으로 데이터를 한 칸씩 왼쪽으로 이동해야 한다. -> O(n)
+```java
+public Object remove(int index) {
+    Object oldValue = get(index);
+    shiftLeftFrom(index);
+
+    size--;
+    elementData[size] = null;
+    return oldValue;
+}
+
+// 요소의 index 부터 마지막까지 왼쪽으로 밀기
+private void shiftLeftFrom(int index) {
+    for (int i = index; i < size - 1 ; i++) {
+        elementData[i] = elementData[i + 1];
+    }
+}
+```
+- 데이터를 삭제하면 리스트의 크기인 size 가 하나 줄어든다.
