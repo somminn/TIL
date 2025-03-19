@@ -15,3 +15,13 @@ public class Node {
         Node next; 
 }
 ```
+![노드연결](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-19%20%EC%98%A4%EC%A0%84%209.33.24.png?raw=true)
+
+#### 모든 노드 탐색하기
+```java
+Node x = first;
+  while (x != null) {
+      System.out.println(x.item);
+      x = x.next; 
+}
+```
