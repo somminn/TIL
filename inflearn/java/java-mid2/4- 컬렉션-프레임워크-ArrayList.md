@@ -110,7 +110,8 @@ public void grow() {
 
 ### 6. 직접 구현하는 배열 List3 - 기능 추가
 
-#### 원하는 인덱스에 데이터 추가
+#### 앞 중간에 데이터 추가
+![데이터 추가](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-18%20%EC%98%A4%ED%9B%84%208.57.53.png?raw=true)
 `add(Object e)` : 마지막 위치에 추가를 한다면 기존 데이터를 이동할 필요가 없다. -> O(1)  
 `add(int index, Object e)` : 추가할 위치를 확보하기 위해 입력한 위치를 기준으로 데이터를 오른쪽으로 한 칸씩 이동해야 한다. -> O(n)
 
@@ -134,7 +135,8 @@ private void shiftRightFrom(int index) {
 ```
 
 
-#### 원하는 인덱스 데이터 삭제
+#### 앞 중간에 데이터 삭제
+![데이터 삭제](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-18%20%EC%98%A4%ED%9B%84%208.58.13.png?raw=true)
 `remove(int 마지막 index)` : 마지막 위치라면 기존 데이터를 이동할 필요가 없다. -> O(1)  
 `remove(int 앞 index)` : 삭제할 데이터가 마지막 위치가 아니라면 삭제할 데이터의 위치를 기준으로 데이터를 한 칸씩 왼쪽으로 이동해야 한다. -> O(n)
 ```java
@@ -155,3 +157,43 @@ private void shiftLeftFrom(int index) {
 }
 ```
 - 데이터를 삭제하면 리스트의 크기인 size 가 하나 줄어든다.
+
+#### 배열 리스트의 빅오
+- 데이터 추가
+  - 마지막에 추가: O(1)
+  - 앞, 중간에 추가: O(n)
+- 데이터 삭제
+  - 마지막에 삭제: O(1)
+  - 앞, 중간에 삭제: O(n)
+- 인덱스 조회: O(1)
+- 데이터 검색: O(n)
+
+
+
+### 7. 직접 구현하는 배열 List4 - 제네릭1
+타입 안전성을 확보하고 다운 캐스팅 없이 원하는 타입을 반환할 수 있게 제네릭을 사용해서 Object 를 지웠다.  
+`public class MyArrayListV4<E>`  
+`public void add(E e)`  
+`public E get(int index)`  
+
+
+### 8. 직접 구현하는 배열 List5 - 제네릭2
+
+#### Object 배열을 사용한 이유
+`new Object[DEFAULT_CAPACITY]`  
+생성자에는 제네릭의 타입 매개변수를 사용할 수 없기 때문에 대안으로 Object 배열을 사용한다. 
+따라서 고정된 타입으로 Object 배열에 데이터를 보관하고, 또 데이터를 꺼낼 때도 같은 고정된 타입으로 안전하게 다운 캐스팅 할 수 있게 설정한다.
+
+- 데이터 추가 : `public void add(E e)`
+- 데이터 반환
+```java
+public E get(int index) {
+    return (E) elementData[index];
+    }
+```
+get() 에서 데이터를 꺼낼 때 항상 (String) 으로로 다운 캐스팅 한다. 
+저장된 데이터들은 모두 String 타입으로 add() 되었기 떄문에 문제가 발생하지 않는다.
+
+#### 배열 리스트의 단점
+1. 정확한 크기를 미리 알지 못하면 메모리가 낭비된다.
+2. 순서대로 마지막에 데이터를 추가하거나 삭제할 때는 성능이 좋지만 데이터를 중간에 추가하거나 삭제할 때 비효율적이다.
