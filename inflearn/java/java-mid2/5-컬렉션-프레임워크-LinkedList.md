@@ -157,20 +157,41 @@ public void add(int index, Object e) {
 }
 ```
 1. 첫 번째 위치에 데이터 추가
+![첫 번째 위치에 데이터 추가](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-19%20%EC%98%A4%ED%9B%84%206.17.57.png?raw=true)
    - 신규 노드 생성 
-   - 신규 노드와 다음 노드(first) 연결
+   - 신규 노드와 다음 노드(first) 연결 
    - first 에 신규 노드 연결
+  
 2. 중간 위치에 데이터 추가
+![중간 위치에 데이터 추가](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-19%20%EC%98%A4%ED%9B%84%206.18.57.png?raw=true)
    - 새로운 노드를 생성하고, 노드가 입력될 위치의 직전 노드(prev)를 찾기
    - 직전 노드(prev)의 next 값으로 신규 노드와 다음 노드 연결 
    - 직전 노드(prev)에 신규 노드 연결
 
 #### Object remove(int index)
+```java
+public Object remove(int index) {
+     Node removeNode = getNode(index);
+     Object removedItem = removeNode.item;
+     if (index == 0) {
+         first = removeNode.next;
+     } else {
+         Node prev = getNode(index - 1);
+         prev.next = removeNode.next;
+     }
+     removeNode.item = null;
+     removeNode.next = null;
+     size--;
+     return removedItem;
+}
+```
 1. 첫 번째 위치의 데이터 삭제
+![첫 번째 위치의 데이터 삭제](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-19%20%EC%98%A4%ED%9B%84%206.18.29.png?raw=true)
    - 삭제 대상 선택
    - first 에 삭제 대상의 다음 노드 연결
    - 삭제 대상의 데이터 초기화
 2. 중간 위치의 데이터 삭제
+![중간 위치의 데이터 삭제](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-03-19%20%EC%98%A4%ED%9B%84%206.19.40.png?raw=true)
    - 삭제 대상과 삭제 대상의 직전 노드(prev) 찾기
    - 삭제 노드의 next 값으로 직전 노드(prev)와 다음 노드 연결
    - 삭제 노드의 데이터 초기화
@@ -178,13 +199,21 @@ public void add(int index, Object e) {
 
 ### 6. 직접 구현하는 연결 리스트3 - 추가와 삭제2
 
+#### 배열 리스트와 연결 리스트의 성능 비교 표
+|기능|   배열 리스트   | 연결 리스트 |
+|:--:|:----------:|:------:|
+|인덱스 조회|    O(1)    |  O(n)  |
+|검색|    O(n)    |  O(n)  |
+|앞에 추가(삭제)|    O(n)    |  O(1)  |
+|뒤에 추가(삭제)|    O(1)    |  O(n)  |
+|평균 추가(삭제)|       O(n)     |   O(n)     |
+
+#### 배열 리스트 vs 연결 리스트 사용
+> 데이터를 조회할 일이 많고, 뒷 부분에 데이터를 추가한다면 배열 리스트가 보통 더 좋은 성능을 제공한다. 앞쪽의 데이 터를 추가하거나 삭제할 일이 많다면 연결 리스트를 사용하는 것이 보통 더 좋은 성능을 제공한다.
 
 
-
-
-
-
-
+### 7. 직접 구현하는 연결 리스트4 - 제네릭 도입
+Node 는 외부에서 사용되는 것이 아니라 연결 리스트 내부에서만 사용되므로 중첩 클래스로 만들었다.
 
 
 
