@@ -24,3 +24,21 @@ void join() {
     Assertions.assertThat(member).isEqualTo(findMember);
 }
 ```
+
+
+## assertThat
+다양한 조건을 체이닝으로 연결이 가능한 메서드
+```java
+Assertions.assertThat(...)
+```
+
+
+## assertThrows
+예외가 발생하는지 테스트할 때 사용하는 메서드
+```java
+Assertions.assertThrows(예외클래스.class, () -> {
+    // 예외가 발생해야 하는 코드
+});
+```
+아무 예외도 발생하지 않거나 다른 예외가 발생하면 테스트가 실패한다. 
+
