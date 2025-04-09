@@ -13,7 +13,7 @@
 - 패킷(Packet)이라는 통신 단위로 데이터 전달
 
 #### IP 패킷 정보
-![Image](https://github.com/user-attachments/assets/fcdb4b9e-f1a5-4cac-9c3c-9b6705d5f15e)
+![Image](./user-attachments/assets/fcdb4b9e-f1a5-4cac-9c3c-9b6705d5f15e.jpg)
 
 #### IP 프로토콜의 한계
 - `비연결성`: 패킷을 받을 대상이 없거나 서비스 불능 상태여도 패킷 전송
