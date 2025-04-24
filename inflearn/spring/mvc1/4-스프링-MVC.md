@@ -218,6 +218,7 @@ public String mappingGetV2() {
 
     
 ### @PathVariable (경로 변수)
+URL 경로의 일부를 변수처럼 받아와서 메서드의 파라미터로 전달
 ```java
 @GetMapping("/mapping/{userId}")
 public String mappingPath(@PathVariable("userId") String data) {
