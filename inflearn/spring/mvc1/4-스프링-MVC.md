@@ -571,15 +571,27 @@ public HelloData responseBodyJsonV2() {
 ## 요청 매핑 헨들러 어뎁터 구조
 
 ### RequestMappingHandlerAdapter 동작 방식
+![RequestMappingHandlerAdapter 동작 방식](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-04-22%20%EC%98%A4%ED%9B%84%207.57.31.png?raw=true)
 
 
+### ArgumentResolver
+애노테이션 기반의 컨트롤러가 파라미터를 유연하게 처리할 수 있는 이유는 `ArgumentResolver` 덕분이다.
+
+애노테이션 기반 컨트롤러를 처리하는 `RequestMappingHandlerAdapter` 는 바로 이 `ArgumentResolver` 를 호출해서 컨트롤러(핸들러)가 필요로 하는 다양한 파라미터의 값(객체)을 생성한다.
+그리고 이렇게 파리미터의 값이 모두 준비되면 컨트롤러를 호출하면서 값을 넘겨준다.
+
+### ReturnValueHandler
+컨트롤러에서 String으로 뷰 이름을 반환해도, 동작하는 이유가 바로 ReturnValueHandler 덕분이다.
 
 
+### HTTP 메시지 컨버터
+#### 요청의 경우
+`@RequestBody` 를 처리하는 `ArgumentResolver` 가 있고, `HttpEntity` 를 처리하는 `ArgumentResolver` 가 있다. 
+이 `ArgumentResolver` 들이 HTTP 메시지 컨버터를 사용해서 필요한 객체를 생성하는 것이다.
 
-
-
-
-
+#### 응답의 경우
+`@ResponseBody` 와 `HttpEntity` 를 처리하는 `ReturnValueHandler` 가 있다. 
+그리고 여기에서 HTTP 메시지 컨버터를 호출해서 응답 결과를 만든다.
 
 
 
