@@ -5,6 +5,70 @@
 하나의 CSS로 휴대폰, 태블릿, 데스크탑까지 다양한 기기에서 작동한다.
 다양한 기능을 제공하여 사용자가 쉽게 웹사이 트를 제작, 유지, 보수할 수 있도록 도와준다.
 
+## 타임리프
+- HTML을 기반으로 동적인 웹 페이지를 생성할 수 있게 도와주는 Java 템플릿 엔진
+- 타임리프는 순수 HTML 파일을 웹 브라우저에서 열어도 내용을 확인할 수 있고, 서버를 통해 뷰 템플릿을 거치면 동적으로 변경된 결과를 확인할 수 있다.
+- 순수 HTML을 그대로 유지하면서 뷰 템플릿도 사용할 수 있는 타임리프의 특징을 네츄럴 템플릿(natural templates)이라 한다.
+
+
+### 타임리프 사용 선언
+`<html xmlns:th="http://www.thymeleaf.org">`
+
+### 속성 변경 - th:href 
+`th:href="@{/css/bootstrap.min.css}"`
+- HTML을 그대로 볼 때는 `href` 속성이 사용되고, 뷰 템플릿을 거치면 `th:href` 의 값이 `href` 로 대체되면서 동적으로 변경할 수 있다.
+
+### 타임리프 핵심
+- 핵심은 `th:xxx` 가 붙은 부분은 서버사이드에서 렌더링 되고, 기존 것을 대체한다. 
+- `th:xxx` 이 없으면 기존 html 의 `xxx` 속성이 그대로 사용된다.
+- HTML을 파일 보기를 유지하면서 템플릿 기능도 할 수 있다.
+
+### URL 링크 표현식 - @{...}
+`th:href="@{/css/bootstrap.min.css}"`
+- `@{...}` : 타임리프는 URL 링크를 사용하는 경우 `@{...}` 를 사용한다. 이것을 URL 링크 표현식이라 한다. 
+- URL 링크 표현식을 사용하면 서블릿 컨텍스트를 자동으로 포함한다.
+  - 서블릿 컨텍스트(context path)는 애플리케이션의 최상위 URL 경로를 뜻한다.
+  - 참고로 @RequestMapping이 붙는 부분은 항상 context path 이후의 부분만을 다룬다.
+    - @RequestMapping("/basic/items")
+    - context path = /일 경우: http://localhost:8080/basic/items
+    - context path = /myapp일 경우: http://localhost:8080/myapp/basic/items
+
+### 속성 변경 - th:onclick
+```java
+onclick="location.href='addForm.html'"
+th:onclick="|location.href='@{/basic/items/add}'|"
+```
+
+### 리터럴 대체 - |...|
+- 문자와 표현식을 더하기 없이 사용할 수 있다. 
+- 전: `th:onclick="'location.href=' + '\'' + @{/basic/items/add} + '\''"`
+- 후: `th:onclick="|location.href='@{/basic/items/add}'|"`
+
+### 반복 출력 - th:each
+`<tr th:each="item : ${items}">`
+- 모델에 포함된 `items` 컬렉션 데이터가 `item` 변수에 하나씩 포함 되고, 반복문 안에서 `item` 변수를 사용할 수 있다.
+
+
+### 변수 표현식 - ${...}
+`<td th:text="${item.price}">10000</td>`
+- 모델에 포함된 값이나, 타임리프 변수로 선언한 값을 조회할 수 있다.
+- 프로퍼티 접근법을 사용한다. ( `item.getPrice()` )
+
+### 내용 변경 - th:text
+`<td th:text="${item.price}">10000</td>`
+- 내용의 값을 `th:text` 의 값으로 변경한다.
+- 여기서는 10000을 `${item.price}` 의 값으로 변경한다.
+
+### URL 링크 표현식2 - @{...} 
+`th:href="@{/basic/items/{itemId}(itemId=${item.id})}"`
+- URL 링크 표현식을 사용하면 경로를 템플릿처럼 편리하게 사용할 수 있다.
+  - 템플릿: 정적 HTML과 달리, 서버에서 데이터를 주입해 완성된 HTML
+- 경로 변수( `{itemId}` ) 뿐만 아니라 쿼리 파라미터도 생성한다.
+
+### URL 링크 간단히
+`th:href="@{|/basic/items/${item.id}|}"`
+
+
 ## 서비스 제공 흐름
 ![서비스 제공 흐름](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-04-24%20%EC%98%A4%ED%9B%84%205.22.40.png?raw=true)
 1. 상품 목록
@@ -13,73 +77,6 @@
 4. 상품 상세
 5. 상품 수정 폼
 6. 상품 수정
-
-
-타임리프
-- HTML을 기반으로 동적인 웹 페이지를 생성할 수 있게 도와주는 Java 템플릿 엔진
-- 타임리프는 순수 HTML 파일을 웹 브라우저에서 열어도 내용을 확인할 수 있고, 서버를 통해 뷰 템플릿을 거치면 동적으로 변경된 결과를 확인할 수 있다.
-- 순수 HTML을 그대로 유지하면서 뷰 템플릿도 사용할 수 있는 타임리프의 특징을 네츄럴 템플릿(natural templates)이라 한다.
-
-
-타임리프 사용 선언
-`<html xmlns:th="http://www.thymeleaf.org">`
-
-속성 변경 - th:href 
-`th:href="@{/css/bootstrap.min.css}"`
-HTML을 그대로 볼 때는 `href` 속성이 사용되고, 뷰 템플릿을 거치면 `th:href` 의 값이 `href` 로 대체되면서 동적으로 변경할 수 있다.
-
-타임리프 핵심
-핵심은 `th:xxx` 가 붙은 부분은 서버사이드에서 렌더링 되고, 기존 것을 대체한다. 
-`th:xxx` 이 없으면 기존 html 의 `xxx` 속성이 그대로 사용된다.
-HTML을 파일 보기를 유지하면서 템플릿 기능도 할 수 있다.
-
-
-URL 링크 표현식 - @{...}
-`th:href="@{/css/bootstrap.min.css}"`
-`@{...}` : 타임리프는 URL 링크를 사용하는 경우 `@{...}` 를 사용한다. 이것을 URL 링크 표현식이라 한다. 
-URL 링크 표현식을 사용하면 서블릿 컨텍스트를 자동으로 포함한다.
-서블릿 컨텍스트(context path)는 애플리케이션의 최상위 URL 경로를 뜻한다.
-참고로 @RequestMapping이 붙는 부분은 항상 context path 이후의 부분만을 다룬다.
-@RequestMapping("/basic/items")
-context path = /일 경우: http://localhost:8080/basic/items
-context path = /myapp일 경우: http://localhost:8080/myapp/basic/items
-
-
-속성 변경 - th:onclick
-```java
-onclick="location.href='addForm.html'"
-th:onclick="|location.href='@{/basic/items/add}'|"
-```
-
-리터럴 대체 - |...|
-문자와 표현식을 더하기 없이 사용할 수 있다. 
-전: `th:onclick="'location.href=' + '\'' + @{/basic/items/add} + '\''"`
-후: `th:onclick="|location.href='@{/basic/items/add}'|"`
-
-반복 출력 - th:each
-`<tr th:each="item : ${items}">`
-모델에 포함된 `items` 컬렉션 데이터가 `item` 변수에 하나씩 포함 되고, 반복문 안에서 `item` 변수를 사용할 수 있다.
-
-
-변수 표현식 - ${...}
-`<td th:text="${item.price}">10000</td>`
-- 모델에 포함된 값이나, 타임리프 변수로 선언한 값을 조회할 수 있다.
-- 프로퍼티 접근법을 사용한다. ( `item.getPrice()` )
-
-내용 변경 - th:text
-`<td th:text="${item.price}">10000</td>`
-- 내용의 값을 `th:text` 의 값으로 변경한다.
-- 여기서는 10000을 `${item.price}` 의 값으로 변경한다.
-
-URL 링크 표현식2 - @{...} 
-`th:href="@{/basic/items/{itemId}(itemId=${item.id})}"`
-- URL 링크 표현식을 사용하면 경로를 템플릿처럼 편리하게 사용할 수 있다.
-  - 템플릿: 정적 HTML과 달리, 서버에서 데이터를 주입해 완성된 HTML
-- 경로 변수( `{itemId}` ) 뿐만 아니라 쿼리 파라미터도 생성한다.
-
-
-URL 링크 간단히
-`th:href="@{|/basic/items/${item.id}|}"`
 
 
 ## 1. 상품 목록 
@@ -167,10 +164,10 @@ public String item(@PathVariable Long itemId, Model model) {
         th:onclick="|location.href='@{/basic/items/{itemId}/edit(itemId=${item.id})}'|" type="button">상품 수정</button>
 ```
 
-속성 변경 - th:value
+#### 속성 변경 - th:value
 `th:value="${item.id}"`
-모델에 있는 item 정보를 획득하고 프로퍼티 접근법으로 출력한다. ( `item.getId()` ) 
-`value` 속성을 `th:value` 속성으로 변경한다.
+- 모델에 있는 item 정보를 획득하고 프로퍼티 접근법으로 출력한다. ( `item.getId()` ) 
+- `value` 속성을 `th:value` 속성으로 변경한다.
 
 
 ## 3. 상품 등록 폼
@@ -191,19 +188,19 @@ public String addForm() {
   th:onclick="|location.href='@{/basic/items}'|"
   type="button">취소</button>
 ```
-속성 변경 - th:action
-HTML form에서 `action` 에 값이 없으면 현재 URL에 데이터를 전송한다.
-상품 등록 폼의 URL과 실제 상품 등록을 처리하는 URL을 똑같이 맞추고 HTTP 메서드로 두 기능을 구분한다.
+#### 속성 변경 - th:action
+- HTML form에서 `action` 에 값이 없으면 현재 URL에 데이터를 전송한다.
+- 상품 등록 폼의 URL과 실제 상품 등록을 처리하는 URL을 똑같이 맞추고 HTTP 메서드로 두 기능을 구분한다.
     - 상품 등록 폼: GET `/basic/items/add`
     - 상품 등록 처리: POST `/basic/items/add`
 
 
 
 ## 4. 상품 등록 처리 - @ModelAttribute
-POST - HTML Form 방식 사용
-`content-type: application/x-www-form-urlencoded`
-메시지 바디에 쿼리 파리미터 형식으로 전달 `itemName=itemA&price=10000&quantity=10`
-@RequestParam, @ModelAttribute 사용 가능
+- POST - HTML Form 방식 사용
+- `content-type: application/x-www-form-urlencoded`
+- 메시지 바디에 쿼리 파리미터 형식으로 전달 `itemName=itemA&price=10000&quantity=10`
+- @RequestParam, @ModelAttribute 사용 가능
 
 ### BasicItemController에 추가
 ```java
@@ -213,11 +210,11 @@ public String addItemV3(@ModelAttribute Item item) {
      return "basic/item";
 }
 ```
-@ModelAttribute 기능
+#### @ModelAttribute 기능
 1. 요청 파라미터 처리 (객체 생성 + setter)
-`@ModelAttribute` 는 `Item` 객체를 생성하고, 요청 파라미터의 값을 프로퍼티 접근법(setXxx)으로 입력해준다.
+- `@ModelAttribute` 는 `Item` 객체를 생성하고, 요청 파라미터의 값을 프로퍼티 접근법(setXxx)으로 입력해준다.
 2. Model 추가
-모델(Model)에 `@ModelAttribute` 로 지정한 객체를 자동으로 넣어준다.
+- 모델(Model)에 `@ModelAttribute` 로 지정한 객체를 자동으로 넣어준다.
     - 모델 명 생략할 경우: 클래스명(Item) -> 소문자로 -> item
     - 내가 만든 클래스의 객체일 경우에는 @ModelAttribute 생략 가능 -> 비추
 
@@ -253,19 +250,19 @@ public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
 }
 ```
 
-리다이렉트
-상품 수정은 마지막에 뷰 템플릿을 호출하는 대신에 상품 상세 화면으로 이동하도록 리다이렉트를 호출한다.
-return "redirect:/...": 브라우저에게 요청을 새로 보내라고 지시하는 것 (HTTP 302 리다이렉트 응답)
-return "basic/item/{itemId}": 서버에게 해당 템플릿을 찾으라고 지시하는 것 -> 해당 뷰는 존재하지 않아 에러
+#### 리다이렉트
+- 상품 수정은 마지막에 뷰 템플릿을 호출하는 대신에 상품 상세 화면으로 이동하도록 리다이렉트를 호출한다. 
+- `return "redirect:/..."`: 브라우저에게 요청을 새로 보내라고 지시하는 것 (HTTP 302 리다이렉트 응답)
+- `return "basic/item/{itemId}"`: 서버에게 해당 템플릿을 찾으라고 지시하는 것 -> 해당 뷰는 존재하지 않아 에러
 
 
 # PRG Post/Redirect/Get
-웹 브라우저의 새로 고침은 마지막에 서버에 전송한 데이터를 다시 전송한다.
-상품 등록 폼에서 데이터를 입력하고 저장을 선택한 상태에서 새로고침을 하면 POST 요청을 계속 하는 것
+- 웹 브라우저의 새로 고침은 마지막에 서버에 전송한 데이터를 다시 전송한다.
+- 상품 등록 폼에서 데이터를 입력하고 저장을 선택한 상태에서 새로고침을 하면 POST 요청을 계속 하는 것
 
-![리다이렉트]()
-상품 등록 처리 이후에 뷰 템플릿이 아니라 상품 상세 화면으로 리다이렉트 하도록 했다.
-이런 문제 해결 방식을 `PRG Post/Redirect/Get` 라 한다.
+![리다이렉트](https://github.com/somminn/TIL/blob/main/image/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-04-24%20%EC%98%A4%ED%9B%84%206.54.42.png?raw=true)
+- 상품 등록 처리 이후에 뷰 템플릿이 아니라 상품 상세 화면으로 리다이렉트 하도록 했다. 
+- 이런 문제 해결 방식을 `PRG Post/Redirect/Get` 라 한다.
 
 ### BasicItemController에 추가
 ```java
